@@ -25,20 +25,26 @@ public class Map {
 			ground.setPosition(i);
 			if(i==0){
 				ground.setSymbol('S');
+				ground.setPreSymbol('S');
 			}else if(i==14){
 				ground.setSymbol('H');
+				ground.setPreSymbol('H');
 				ground.setHospital(true);
 			}else if(i==28){
 				ground.setSymbol('T');
+				ground.setPreSymbol('T');
 				ground.setTool(true);
 			}else if(i==35){
 				ground.setSymbol('G');
+				ground.setPreSymbol('G');
 				ground.setGiftHouse(true);
 			}else if(i==49){
 				ground.setSymbol('P');
+				ground.setPreSymbol('P');
 				ground.setJail(true);
 			}else if(i==63){
 				ground.setSymbol('M');
+				ground.setPreSymbol('M');
 				ground.setMagicHouse(true);
 			}
 			map.add(ground);
@@ -63,6 +69,7 @@ public class Map {
 			ground[i].setMine(m[i]);
 			ground[i].setPosition(64+i);
 			ground[i].setSymbol('$');
+			ground[i].setPreSymbol('$');
 			map.add(ground[i]);
 		}
 	}

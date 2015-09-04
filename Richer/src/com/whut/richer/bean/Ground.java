@@ -5,7 +5,8 @@ package com.whut.richer.bean;
  */
 public class Ground {
 	private int position;	//土地的位置
-	private char symbol;	//在控制台显示的标识
+	private char symbol;	//在控制台显示的当前标识
+	private char preSymbol;	//原始的状态,即除了玩家之外不可动的
 	private boolean bomb;	//该位置是否有炸弹
 	private boolean block;	//该位置是否有路障
 	private House house;	//该位置是否有房产
@@ -15,9 +16,11 @@ public class Ground {
 	private boolean jail;	//该位置是否有监狱
 	private boolean giftHouse;	//该位置是否有礼品屋
 	private boolean magicHouse;	//该位置是否有魔法屋
+	private Player player;		//该位置上是否有玩家
 	
 	public Ground(){
 		this.symbol = '0';
+		this.preSymbol='0';
 		this.bomb = false;
 		this.block = false;
 		this.house = null;
@@ -42,6 +45,15 @@ public class Ground {
 	public void setSymbol(char symbol) {
 		this.symbol = symbol;
 	}
+	
+	public char getPreSymbol() {
+		return preSymbol;
+	}
+
+	public void setPreSymbol(char preSymbol) {
+		this.preSymbol = preSymbol;
+	}
+
 	public boolean isBomb() {
 		return bomb;
 	}
@@ -97,5 +109,13 @@ public class Ground {
 
 	public void setMagicHouse(boolean magicHouse) {
 		this.magicHouse = magicHouse;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }
