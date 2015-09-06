@@ -20,6 +20,7 @@ public class Map {
 		/*
 		 * 描述前64块空地  修改指定位置的空地属性
 		 */
+		
 		for(int i=0; i<64; i++){
 			Ground ground = new Ground();
 			ground.setPosition(i);
@@ -49,7 +50,15 @@ public class Map {
 			}
 			map.add(ground);
 		}
-		
+		for(int i=1;i<28;i++){
+			Map.map.get(i).setPrice(200);
+		}
+		for(int i=29; i<35;i++){
+			Map.map.get(i).setPrice(500);
+		}
+		for(int i=36; i<63;i++){
+			Map.map.get(i).setPrice(300);
+		}
 		/*
 		 * 最后描述6块矿地
 		 */

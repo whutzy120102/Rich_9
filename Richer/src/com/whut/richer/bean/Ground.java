@@ -17,7 +17,7 @@ public class Ground {
 	private boolean giftHouse;	//该位置是否有礼品屋
 	private boolean magicHouse;	//该位置是否有魔法屋
 	private Player player;		//该位置上是否有玩家
-	
+	private int price;		//空地的价格
 	public Ground(){
 		this.symbol = '0';
 		this.preSymbol='0';
@@ -117,5 +117,13 @@ public class Ground {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

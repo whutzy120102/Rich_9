@@ -5,10 +5,11 @@ package com.whut.richer.bean;
  */
 public class House {
 	private int position;	//房子的位置
-	private int play_id;	//拥有该房产的玩家
+	private String name;	//拥有该房产的玩家
 	private int toll;		//过路费
 	private int price;		//房子买进的价格(包括升级费用)，卖出是两倍
 	private int update_price;	//房产升级价格
+	private int grade;		//房子的级别  最高3级
 	
 	public int getPosition() {
 		return position;
@@ -16,11 +17,12 @@ public class House {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-	public int getPlay_id() {
-		return play_id;
+	
+	public String getName() {
+		return name;
 	}
-	public void setPlay_id(int play_id) {
-		this.play_id = play_id;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public int getToll() {
 		return toll;
@@ -40,5 +42,10 @@ public class House {
 	public void setUpdate_price(int update_price) {
 		this.update_price = update_price;
 	}
-	
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
 }

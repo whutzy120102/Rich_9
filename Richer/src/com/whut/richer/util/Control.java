@@ -29,6 +29,7 @@ public class Control {
 				Ground ground = Map.map.get(n);
 				ground.setHouse(null);
 				ground.setPreSymbol('0');
+				System.out.println("出售成功！金钱加"+h.getPrice()*2);
 				flag=true;
 			}		
 		}
@@ -50,12 +51,14 @@ public class Control {
 					ground.setBlock(true);
 					ground.setSymbol('#');
 					player.setBlockNum(--blockNum);
+					System.out.println("路障设置成功！剩余路障卡数为："+player.getBlockNum());
 				}else{
 					if((ground.getPreSymbol()=='H'||ground.getPreSymbol()=='P')
 							&&ground.isBlock()==false&&ground.isBomb()==false)
 						ground.setBlock(true);
 						ground.setSymbol('#');
 						player.setBlockNum(--blockNum);
+						System.out.println("路障设置成功！剩余路障卡数为："+player.getBlockNum());
 				}
 
 			}else{
@@ -79,12 +82,14 @@ public class Control {
 					ground.setBomb(true);
 					ground.setSymbol('@');
 					player.setBombNum(--bombNum);
+					System.out.println("炸弹设置成功！剩余炸弹卡数为："+player.getBombNum());
 				}else{
 					if((ground.getPreSymbol()=='H'||ground.getPreSymbol()=='P')
 							&&ground.isBlock()==false&&ground.isBomb()==false)
 						ground.setBomb(true);
 						ground.setSymbol('@');
 						player.setBombNum(--bombNum);
+						System.out.println("炸弹设置成功！剩余炸弹卡数为："+player.getBombNum());
 				}
 			}else{
 				System.out.println("您放置的位置过远，请放在10格以内！");
@@ -111,6 +116,7 @@ public class Control {
 				}
 			}
 			player.setRobotNum(--robot);
+			System.out.println("机器人使用成功！剩余机器人数为："+player.getRobotNum());
 		}else{
 			System.out.println("抱歉，您没有机器人！");
 		}
