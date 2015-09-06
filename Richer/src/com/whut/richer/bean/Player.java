@@ -18,6 +18,7 @@ public class Player {
 	private int point;	//玩家购买道具是用的点数
 	private int stayBout;	//进医院、监狱等停留回合数
 	private int mammon;	//财神状态
+	private boolean alive;	//玩家是否还存活
 	private List<House> property = new ArrayList<House>();	//玩家房产
 	
 	public Player(){
@@ -26,6 +27,7 @@ public class Player {
 		stayBout=0;
 		position=0;
 		mammon=0;
+		alive=true;
 	}
 	
 	public int getBlockNum() {
@@ -108,6 +110,12 @@ public class Player {
 	}
 	public void setProperty(List<House> property) {
 		this.property = property;
+	}
+	public boolean isAlive() {
+		return alive;
+	}
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 	
 }
