@@ -1,6 +1,5 @@
 package com.whut.richer.main;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +33,6 @@ public class Test {
 			if(i>=member){
 				i=0;
 			}
-			//			System.out.println("......"+alive_member);
 		}while(alive_member!=1);
 		for(int j=0;j<member;j++){
 			if(players[j].isAlive())
@@ -52,13 +50,11 @@ public class Test {
 		String m = input.nextLine();
 		member = m.length();
 		alive_member = member;		
-		if(member<2||member>4){
-			System.out.println("输入人数不对或输入了空格,请重新输入");
-			init();
-			return;
-		}
+		
+		char[] ch = new char[member];
 		for(int i=0; i<member; i++){
 			try{
+				ch[i] = m.charAt(i);
 				int b = Integer.parseInt(m.charAt(i)+"");
 				if(b>4||b<1){
 					System.out.println("输入玩家编号不对，应为1~4");
@@ -69,6 +65,21 @@ public class Test {
 				System.out.println("输入非法字符,请重新输入");
 				init();
 				return;
+			}
+		}
+		if(member<2||member>4){
+			System.out.println("输入人数不对或输入了空格,请重新输入");
+			init();
+			return;
+		}
+		//判断输入编号是否有重复
+		for(int i=0;i<member;i++){
+			for(int j=i+1;j<member;j++){
+				if(ch[i]==ch[j]){
+					System.out.println("输入的编号重复,请重新输入.");
+					init();
+					return;
+				}
 			}
 		}
 		players = new Player[member];	
@@ -108,12 +119,6 @@ public class Test {
 	 * 游戏进行
 	 */
 	public static void ing(int i){
-	
-			try {
-				Runtime.getRuntime().exec("cmd cls");
-			} catch (IOException e) {
-			}
-	
 		//打印地图
 		Map.printMap(Map.map);
 		//当前玩家是否跳过
@@ -127,65 +132,77 @@ public class Test {
 		//指定玩家输入指令
 		System.out.print(players[i].getName()+">:");
 		//读取控制台一行
-		String[] orders = input.nextLine().split(" ");
+		String[] orders = input.nextLine().trim().split(" ");
 		String order = orders[0];
-		if(orders.length>1){
-			step = Integer.parseInt(orders[1].trim());			
-		}
-		if("sell".equalsIgnoreCase(order)){
-			exist_step(i);
-			Control.sell(step, players[i]);
-			ing(i);
-			return;
-		}else if("block".equalsIgnoreCase(order)){
-			exist_step(i);
-			Control.block(step, players[i]);
-			ing(i);
-			return;
-		}else if("bomb".equalsIgnoreCase(order)){
-			exist_step(i);
-			Control.bomb(step, players[i]);
-			ing(i);
-			return;
-		}else if("step".equalsIgnoreCase(order)){
-			exist_step(i);
-			int n = Control.step(step);
-			do_roll(i,n);
-		}else if("robot".equalsIgnoreCase(order)){
-			if(orders.length>1){
+		if(orders.length==2){
+			try{
+				step = Integer.parseInt(orders[1].trim());		
+			}catch(Exception e){
+				System.out.println("非法字符输入，请重新输入");
+				ing(i);
+				return;
+			}
+			if("sell".equalsIgnoreCase(order)){
+				exist_step(i);
+				Control.sell(step, players[i]);
+				ing(i);
+				return;
+			}else if("block".equalsIgnoreCase(order)){
+				exist_step(i);
+				Control.block(step, players[i]);
+				ing(i);
+				return;
+			}else if("bomb".equalsIgnoreCase(order)){
+				exist_step(i);
+				Control.bomb(step, players[i]);
+				ing(i);
+				return;
+			}else if("step".equalsIgnoreCase(order)){
+				exist_step(i);
+				int n = Control.step(step);
+				do_roll(i,n);
+			}else{
 				error(i);
 			}
-			Control.robot(players[i]);
-			ing(i);
-			return;
-		}else if("query".equalsIgnoreCase(order)){
-			if(orders.length>1){
+		}else if(orders.length==1){
+			if("robot".equalsIgnoreCase(order)){
+				if(orders.length!=1){
+					error(i);
+				}
+				Control.robot(players[i]);
+				ing(i);
+				return;
+			}else if("query".equalsIgnoreCase(order)){
+				if(orders.length!=1){
+					error(i);
+				}
+				Control.query(players[i]);
+				ing(i);
+				return;
+			}else if("help".equalsIgnoreCase(order)){
+				if(orders.length!=1){
+					error(i);
+				}
+				Control.help();
+				ing(i);
+				return;
+			}else if("quit".equalsIgnoreCase(order)){
+				if(orders.length!=1){
+					error(i);
+				}
+				Control.quit();
+			}else if("roll".equalsIgnoreCase(order)){
+				if(orders.length!=1){
+					error(i);
+				}
+				//调用Roll方法生成一个1~6的随机数
+				int n = Control.roll();
+				do_roll(i,n);
+			}else{
 				error(i);
 			}
-			Control.query(players[i]);
-			ing(i);
-			return;
-		}else if("help".equalsIgnoreCase(order)){
-			if(orders.length>1){
-				error(i);
-			}
-			Control.help();
-			ing(i);
-			return;
-		}else if("quit".equalsIgnoreCase(order)){
-			if(orders.length>1){
-				error(i);
-			}
-			Control.quit();
-		}else if("roll".equalsIgnoreCase(order)){
-			if(orders.length>1){
-				error(i);
-			}
-			//调用Roll方法生成一个1~6的随机数
-			int n = Control.roll();
-			do_roll(i,n);
 		}else{
-				error(i);
+			error(i);
 		}
 		for(int j=0;j<member;j++){
 			int cur_position = players[j].getPosition();
@@ -238,7 +255,7 @@ public class Test {
 			exist_empty(aim_ground,i);
 		}
 		//修改玩家目的地的标识
-		aim_ground.setSymbol(players[i].getSymbol());
+//		aim_ground.setSymbol(players[i].getSymbol());
 		//将玩家当前位置改回之前的状态
 		Ground cur_ground = Map.map.get(current);
 		cur_ground.setSymbol(cur_ground.getPreSymbol());
@@ -304,43 +321,54 @@ public class Test {
 				return;
 			}
 			int biao = Integer.parseInt(ins[0].trim());
-			int n = Integer.parseInt(ins[1].trim());
-			if(num+n>10){
-				System.out.println("输入的数量超过最大允许携带限额，购买无效，请重新输入。");
-				exist_toolHouse(i);
-				return;
-			}else{				
-				int points = 50*n;
-				if(points>players[i].getPoint()){
-					System.out.println("点数不足以购买所要物品数量，请重新输入");
-					exist_toolHouse(i);
-					return;
-				}else if(biao==1){
-					players[i].setBlockNum(players[i].getBlockNum()+n);
-					players[i].setPoint(players[i].getPoint()-points);
-					System.out.println("已购买路障卡"+n+"个，共花费"+points+"点数");
-					System.out.println("输入F退出，或继续购买:");
-					exist_toolHouse(i);
-					return;
-				}else if(biao==2){
-					players[i].setRobotNum(players[i].getRobotNum()+n);
-					players[i].setPoint(players[i].getPoint()-points);
-					System.out.println("已购买机器娃娃卡"+n+"个，共花费"+points+"点数");
-					System.out.println("输入F退出，或继续购买:");
-					exist_toolHouse(i);
-					return;
-				}else if(biao==3){
-					players[i].setBombNum(players[i].getBombNum()+n);
-					players[i].setPoint(players[i].getPoint()-points);
-					System.out.println("已购买炸弹卡"+n+"个，共花费"+points+"点数");
-					System.out.println("输入F退出，或继续购买:");
-					exist_toolHouse(i);
-					return;
-				}else{
-					System.out.println("输入物品标号错误，请重新输入.");
+			try{
+				int n = Integer.parseInt(ins[1].trim());
+				if(n<0){
+					System.out.print("输入数量不对，请重新输入:");
 					exist_toolHouse(i);
 					return;
 				}
+				if(num+n>10){
+					System.out.println("输入的数量超过最大允许携带限额，购买无效，请重新输入。");
+					exist_toolHouse(i);
+					return;
+				}else{				
+					int points = 50*n;
+					if(points>players[i].getPoint()){
+						System.out.println("点数不足以购买所要物品数量，请重新输入");
+						exist_toolHouse(i);
+						return;
+					}else if(biao==1){
+						players[i].setBlockNum(players[i].getBlockNum()+n);
+						players[i].setPoint(players[i].getPoint()-points);
+						System.out.println("已购买路障卡"+n+"个，共花费"+points+"点数");
+						System.out.println("输入F退出，或继续购买:");
+						exist_toolHouse(i);
+						return;
+					}else if(biao==2){
+						players[i].setRobotNum(players[i].getRobotNum()+n);
+						players[i].setPoint(players[i].getPoint()-points);
+						System.out.println("已购买机器娃娃卡"+n+"个，共花费"+points+"点数");
+						System.out.println("输入F退出，或继续购买:");
+						exist_toolHouse(i);
+						return;
+					}else if(biao==3){
+						players[i].setBombNum(players[i].getBombNum()+n);
+						players[i].setPoint(players[i].getPoint()-points);
+						System.out.println("已购买炸弹卡"+n+"个，共花费"+points+"点数");
+						System.out.println("输入F退出，或继续购买:");
+						exist_toolHouse(i);
+						return;
+					}else{
+						System.out.println("输入物品标号错误，请重新输入.");
+						exist_toolHouse(i);
+						return;
+					}
+				}
+			}catch(Exception e){
+				System.out.println("非法字符输入，请重新输入：");
+				exist_toolHouse(i);
+				return;
 			}
 		}else{
 			System.out.println("您的道具数量已满，自动退出");
@@ -444,7 +472,7 @@ public class Test {
 	//判断命令输入格式
 	public static void exist_step(int i){
 		if(step==0){
-			System.out.println("命令格式有错或参数不能为0,请输入Help命令查询或重新输入.");
+			System.out.println("命令格式有错或参数不能为负数或0,请输入Help命令查询或重新输入.");
 			ing(i);
 			return ;
 		}
