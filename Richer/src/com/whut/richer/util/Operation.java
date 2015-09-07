@@ -10,7 +10,12 @@ import com.whut.richer.map.Map;
 public class Operation {
 	//重新定义玩家位置
 	public static int real_position(int n){
-		return n<70?n:(n-70);
+		if(n>=0&&n<70)
+			return n;
+		else if(n>=70)
+			return n - 70;
+		else 
+			return n+70;
 	}
 	//判断前方道路是否有路障，有返回距离，无为0
 	public static int exist_block(int n,Player player){
